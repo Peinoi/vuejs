@@ -1,4 +1,3 @@
-//
 <template>
   NO: <input type="number" v-model="no" /><br />
   이름: <input type="text" v-model="name" /><br />
