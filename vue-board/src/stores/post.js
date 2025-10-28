@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import axios from "axios";
-import { useRoute } from "vue-router";
 
 export const usePostStore = defineStore("post", () => {
   const posts = ref([]); // state

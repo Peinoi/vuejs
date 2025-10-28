@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import PostView from "../views/PostView.vue";
 import ModifyView from "../views/ModifyView.vue";
-
+import Login from "../views/Login.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -10,6 +10,11 @@ const router = createRouter({
       path: "/",
       name: "HomeView",
       component: HomeView,
+    },
+    {
+      path: "/login",
+      name: "login",
+      component: Login,
     },
     {
       path: "/post/:id",
