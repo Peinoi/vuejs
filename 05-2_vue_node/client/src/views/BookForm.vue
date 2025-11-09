@@ -33,6 +33,52 @@
     </form>
   </div>
 </template>
+<script setup>
+import axios from "axios";
+import { useRouter } from 'vue-router'
+import { reactive, computed } from "vue";
+const router = useRouter()
+
+const bookInfo = reactive({
+  no: "",
+  name: "",
+  writer: "",
+  publisher: "",
+  publication_date: new Date(),
+  info: ""
+});
+const saveBook = async () => {
+  let obj = {
+    name: bookInfo.name,
+    writer: bookInfo.writer,
+    publisher: bookInfo.publisher,
+    publication_date: formattedDate.value,
+    info : bookInfo.info
+  };
+  let result = await axios.post(`http://localhost:3000/book`, obj ).catch((err) => console.log(err));
+  let addRes = result.data;
+  console.log(addRes)
+  if (addRes.affectedRows > 0) {
+    alert("게시글이 추가되었습니다.");
+    router.push({ name: 'bookList' })
+  } else {
+    alert("게시글이 추가에 실패했습니다.");
+  }
+  
+};
+const formattedDate = computed(() => {
+  return getDateFormat(bookInfo.publication_date, "yyyy-MM-dd");
+});
+
+const getDateFormat =(datevalue,format) => {
+  let date = new Date(datevalue);
+  let year = date.getFullYear();
+  let month = ("0" + (date.getMonth() + 1)).slice(-2);
+  let day = ("0" + date.getDate()).slice(-2);
+  let result = format.replace("yyyy", year).replace("MM", month).replace("dd", day);
+  return result;
+}
+</script>
 
 <style scoped>
 /* Style inputs with type="text", select elements and textareas */

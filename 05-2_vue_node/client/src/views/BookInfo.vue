@@ -17,7 +17,7 @@
             <td colspan="2" class="text-center">{{ bookInfo.publisher }}</td>
             <th colspan="1" class="text-center table-primary">출판일자</th>
             <td colspan="2" class="text-center">
-              {{ getDateFormat(bookInfo.publication_date) }}
+              {{ getDateFormat(bookInfo.publication_date,'yyyy-mm-dd') }}
             </td>
           </tr>
         </thead>
@@ -61,3 +61,31 @@
     </div>
   </div>
 </template>
+<script setup>
+import { useRoute } from 'vue-router'
+import { onMounted, ref } from 'vue'
+import axios from "axios";
+
+const route = useRoute()
+let bookInfo = ref({})
+const getBookInfo = async (bno) => {
+  let result = await axios.get(`http://localhost:3000/book/${bno}`).catch((err) => console.log(err))
+  bookInfo.value = result.data[0]
+  console.log(result.data[0])
+}
+onMounted(() => {
+  let boardNo = route.query.no
+  getBookInfo(boardNo)
+})
+
+
+
+const getDateFormat =(datevalue,format) => {
+  let date = new Date(datevalue);
+  let year = date.getFullYear();
+  let month = ("0" + (date.getMonth() + 1)).slice(-2);
+  let day = ("0" + date.getDate()).slice(-2);
+  let result = format.replace("yyyy", year).replace("mm", month).replace("dd", day);
+  return result;
+}
+</script>
